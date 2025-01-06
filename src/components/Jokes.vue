@@ -4,7 +4,7 @@
 
     <div class="buttons">
       <button @click="fetchRandomJoke">
-        <i class="fa fa-random"></i> Get Random Jokes
+        <i class="fa fa-random"></i> Get Random Joke
       </button>
     </div>
 
