@@ -11,7 +11,7 @@ The backend is located at: https://github.com/tibytt/jokesBackEnd
 Clone the frontend repository:
 ```bash
 git clone https://github.com/tibytt/jokesFrontEnd.git
-cd frontend-repo
+cd jokesFrontEnd
 npm i && npm run dev
 
 Visit localhost:5173 on your browser
