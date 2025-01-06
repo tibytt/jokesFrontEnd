@@ -1,25 +1,23 @@
 body {
-    margin: 0;
-    padding: 0;
-  }
+  margin: 0;
+  padding: 0;
+}
+
+#app {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+  font-family: Avenir, Helvetica, Arial, sans-serif;
+  text-align: center;
+  color: #2c3e50;
   
-  /* Ensure app layout takes full height */
-  #app {
-    display: flex;
-    flex-direction: column;
-    min-height: 100vh; /* Ensure the app takes full height */
-    font-family: Avenir, Helvetica, Arial, sans-serif;
-    text-align: center;
-    color: #2c3e50;
-    
-  }
-  
-  /* Main content should take up available space */
-  router-view {
-    flex: 1;
-  }
-  
-  /* Push footer to the bottom */
-  footer {
-    margin-top: auto;
-  }
+}
+
+
+router-view {
+  flex: 1;
+}
+
+footer {
+  margin-top: auto;
+}
