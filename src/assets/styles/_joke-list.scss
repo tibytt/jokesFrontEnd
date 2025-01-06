@@ -1,0 +1,268 @@
+ // Variables
+ $primary-color: #ffcc00;
+ $secondary-color: #28a745;
+ $danger-color: #dc3545;
+ $hover-color: #333;
+ $border-radius: 8px;
+ $font-family: 'Helvetica', 'Arial', sans-serif;
+
+ // Mixins
+ @mixin button-style($bg-color) {
+   padding: 12px 24px;
+   background-color: $bg-color;
+   color: white;
+   border: none;
+   border-radius: $border-radius;
+   cursor: pointer;
+   font-size: 1rem;
+   transition: background-color 0.3s ease;
+ }
+
+ @mixin input-style($focus-border-color) {
+   padding: 10px;
+   font-size: 1rem;
+   border-radius: $border-radius;
+   border: 1px solid #ddd;
+   width: 100px;
+   outline: none;
+   transition: border 0.3s ease;
+   
+   &:focus {
+     border-color: $focus-border-color;
+   }
+   
+   &:hover {
+     border-color: $primary-color;
+   }
+ }
+
+ .loading-spinner {
+   position: fixed;
+   top: 50%;
+   left: 50%;
+   transform: translate(-50%, -50%);
+   display: flex;
+   justify-content: center;
+   align-items: center;
+   z-index: 9999;
+
+   i {
+     font-size: 3rem;
+     color: $primary-color;
+   }
+ }
+
+ .jokes-list {
+   padding: 40px 20px;
+   margin: 0 30px;
+   border-radius: 12px;
+   font-family: $font-family;
+ }
+
+ .success-banner {
+   background-color: $secondary-color;
+   color: white;
+   padding: 5px 5px;
+   border-radius: $border-radius;
+   margin-top: 15px;
+   text-align: center;
+   font-size: 1.1rem;
+   margin-bottom: 10px;
+ }
+
+ .delete-btn {
+   padding: 5px 10px;
+   background-color: $danger-color;
+   color: white;
+   border: none;
+   border-radius: $border-radius;
+   cursor: pointer;
+
+   &:hover {
+     background-color: darken($danger-color, 10%);
+   }
+ }
+
+ h1 {
+   font-size: 2.5rem;
+   font-weight: 700;
+   color: #2e3a59;
+   text-align: center;
+   margin-bottom: 30px;
+   letter-spacing: 0.5px;
+ }
+
+ .jokes-controls {
+   display: flex;
+   justify-content: space-between;
+   align-items: center;
+   margin-bottom: 25px;
+   flex-wrap: wrap;
+ }
+
+ .controls-group {
+   display: flex;
+   gap: 20px;
+   align-items: center;
+ }
+
+ .jokes-count-controls {
+   display: flex;
+   align-items: center;
+
+   label {
+     font-size: 1.1rem;
+     color: #444;
+     margin-right: 10px;
+   }
+
+   input {
+     @include input-style($primary-color);
+   }
+ }
+
+ .joke-types-filter {
+   display: flex;
+   flex-wrap: wrap;
+   align-items: center;
+   gap: 10px;
+
+   label {
+     font-size: 1.1rem;
+     color: #444;
+     margin-right: 10px;
+   }
+ }
+
+ .checkbox-container {
+   display: flex;
+   align-items: center;
+   gap: 10px;
+
+   input {
+     margin-right: 8px;
+     accent-color: $primary-color;
+   }
+ }
+
+ .primary-btn {
+   @include button-style($primary-color);
+
+   &:hover {
+     background-color: darken($primary-color, 10%);
+   }
+ }
+
+ .jokes-table {
+   width: 100%;
+   border-collapse: collapse;
+   margin-bottom: 30px;
+   background-color: white;
+   border-radius: $border-radius;
+   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+
+   th,
+   td {
+     padding: 15px;
+     text-align: left;
+   }
+
+   th {
+     background-color: $primary-color;
+     color: white;
+     font-size: 1.1rem;
+     font-weight: 600;
+   }
+
+   td {
+     font-size: 1.1rem;
+   }
+
+   tr:hover {
+     background-color: #f9f9f9;
+   }
+
+   tr {
+     border-bottom: 1px solid #f2f2f2;
+   }
+
+   .joke-link {
+     text-decoration: none;
+     color: #333;
+   }
+ }
+
+ .pagination-controls {
+   display: flex;
+   justify-content: space-between;
+   align-items: center;
+   margin-top: 30px;
+
+   button {
+     padding: 10px 20px;
+     background-color: $primary-color;
+     color: white;
+     border: none;
+     border-radius: $border-radius;
+     cursor: pointer;
+     font-size: 1rem;
+     transition: background-color 0.3s ease;
+
+     &:disabled {
+       background-color: #bdbdbd;
+       cursor: not-allowed;
+     }
+
+     &:hover:not(:disabled) {
+       background-color: darken($primary-color, 10%);
+     }
+   }
+
+   .page-info {
+     font-size: 1.2rem;
+     color: #555;
+   }
+ }
+
+ @media (max-width: 768px) {
+   .jokes-list {
+     padding: 20px;
+   }
+
+   h1 {
+     font-size: 2rem;
+   }
+
+   .jokes-controls {
+     flex-direction: column;
+     align-items: flex-start;
+   }
+
+   .controls-group {
+     flex-direction: column;
+     align-items: flex-start;
+   }
+
+   .jokes-count-controls input {
+     width: 80px;
+   }
+
+   .jokes-table th,
+   .jokes-table td {
+     font-size: 1rem;
+     padding: 12px;
+   }
+
+   .pagination-controls {
+     flex-direction: column;
+     align-items: center;
+   }
+
+   .pagination-controls button {
+     margin-bottom: 10px;
+   }
+
+   .page-info {
+     margin-bottom: 10px;
+   }
+ }

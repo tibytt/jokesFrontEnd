@@ -1,0 +1,14 @@
+@mixin button-style {
+    @include container;
+    background-color: $button-bg-color;
+    color: $button-text-color;
+    border: none;
+    border-radius: $border-radius;
+    font-weight: bold;
+    cursor: pointer;
+  }
+  
+@mixin container {
+    width: 90%;
+    margin: 0 auto;
+  }

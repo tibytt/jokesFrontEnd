@@ -1,0 +1,184 @@
+.jokes-container {
+    // margin: 0 auto;
+    padding: 40px 20px;
+    border-radius: 12px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    margin-top: 20px;
+  
+    h1 {
+      font-family: 'Montserrat', sans-serif;
+      font-size: 2.5rem;
+      color: #333;
+      text-align: center;
+      margin-bottom: 30px;
+      text-transform: uppercase;
+      letter-spacing: 1.5px;
+    }
+  
+    .buttons {
+      display: flex;
+      justify-content: center;
+      margin-bottom: 20px;
+  
+      button {
+        background-color: #ffcc00;
+        color: white;
+        font-size: 1.1rem;
+        padding: 12px 24px;
+        margin: 0 10px;
+        border: none;
+        border-radius: 8px;
+        cursor: pointer;
+        transition: background-color 0.3s ease, transform 0.3s ease;
+  
+        &:hover {
+          background-color: #ffb300;
+          transform: translateY(-2px);
+        }
+  
+        &:active {
+          transform: translateY(1px);
+        }
+  
+        &:focus {
+          outline: none;
+        }
+      }
+    }
+  
+    .joke-section {
+      margin-top: 20px;
+      text-align: center;
+  
+      a {
+        color: #333;
+        font-size: 1.2rem;
+        font-weight: bold;
+        text-decoration: none;
+        margin-top: 15px;
+        transition: color 0.3s ease, text-decoration 0.3s ease;
+  
+        &:hover {
+          color: #ffcc00;
+          text-decoration: none;
+        }
+  
+        &:focus {
+          outline: none;
+        }
+      }
+    }
+  
+    .loading-spinner {
+      font-size: 3rem;
+      color: #ffcc00;
+      margin-top: 20px;
+    }
+  
+    .joke-content {
+      opacity: 0;
+      transform: translateX(100%);
+      transition: opacity 0.5s ease, transform 0.5s ease;
+  
+      &.slide-in {
+        opacity: 1;
+        transform: translateX(0);
+      }
+    }
+  
+    .joke-link {
+      display: block;
+      text-decoration: none;
+      color: #333;
+      transition: color 0.3s ease, text-decoration 0.3s ease;
+  
+      &:hover {
+        color: #ffcc00;
+        text-decoration: none;
+      }
+    }
+  
+    .joke-card {
+      width: 100%;
+      max-width: 400px;
+      height: 250px;
+      perspective: 1000px;
+      margin: 0 auto;
+  
+      .card-inner {
+        width: 100%;
+        height: 100%;
+        position: relative;
+        transform-style: preserve-3d;
+        transition: transform 0.5s ease;
+        display: flex;
+      }
+  
+      &:hover .card-inner {
+        transform: rotateY(180deg);
+      }
+  
+      .card-front,
+      .card-back {
+        width: 100%;
+        height: 100%;
+        backface-visibility: hidden;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        text-align: center;
+        font-size: 1.2rem;
+        color: #333;
+        border-radius: 8px;
+        background-color: white;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        padding: 15px 25px;
+        box-sizing: border-box;
+      }
+  
+      .card-front {
+        background-color: #f4f7fa;
+      }
+  
+      .card-back {
+        background-color: #ffcc00;
+        transform: rotateY(180deg);
+        color: white;
+        position: absolute;
+      }
+    }
+  }
+  
+  @media (max-width: 768px) {
+    .jokes-container {
+      padding: 20px;
+    }
+  
+    h1 {
+      font-size: 2rem;
+    }
+  
+    .buttons button {
+      font-size: 1rem;
+      padding: 10px 20px;
+    }
+  
+    .joke-card {
+      width: 100%;
+      height: 200px;
+      max-width: 90%;
+
+      .card-inner {
+        min-width: none;
+      }
+    }
+  
+    .card-front,
+    .card-back {
+      font-size: 1rem;
+      padding: 15px;
+    }
+  }
