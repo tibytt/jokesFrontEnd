@@ -42,12 +42,12 @@
         </tr>
       </thead>
       <tbody>
-        <tr v-for="(joke, index) in paginatedJokes" :key="joke.id">
+        <tr v-for="(joke, index) in paginatedJokes" :key="joke.id || index">
           <router-link :to="'/joke/' + joke.id" class="joke-link">
             <td>{{ joke.setup }}</td>
           </router-link>
           <td>
-            <button @click="deleteJoke(joke.id)" class="delete-btn">Delete</button>
+            <button v-if="joke.id !== null" @click="deleteJoke(joke.id)" class="delete-btn">Delete</button>
           </td>
         </tr>
       </tbody>
