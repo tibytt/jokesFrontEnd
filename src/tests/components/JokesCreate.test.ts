@@ -6,7 +6,7 @@ import jokeService from '../../services/jokeService';
 
 vi.mock('../../services/jokeService', () => ({
   default: {
-    getJokeTypes: vi.fn(() => Promise.resolve(['Knock-Knock', 'Pun', 'One-liner'])),
+    getJokeTypes: vi.fn(() => Promise.resolve(['General', 'Knock-Knock', 'Programming', 'Dad'])),
     addJoke: vi.fn().mockResolvedValue({
       id: 1,
       type: 'Pun',
