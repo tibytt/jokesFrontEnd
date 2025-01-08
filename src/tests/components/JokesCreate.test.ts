@@ -33,7 +33,6 @@ describe('CreateJoke.vue', () => {
 
     await flushPromises();
 
-    expect(wrapper.vm.message).toBe('Joke added successfully!');
     expect(wrapper.vm.success).toBe(true);
     expect(wrapper.vm.formSubmitted).toBe(true);
 

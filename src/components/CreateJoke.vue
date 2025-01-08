@@ -40,7 +40,9 @@
         </div>
 
         <div class="card-back">
-          <h4>{{ message }}</h4>
+
+          <p v-html="message">
+          </p>
           <button @click="addAnotherJoke" class="add-another-btn">Add Another Joke</button>
         </div>
       </div>
@@ -55,8 +57,7 @@
 <script lang="ts">
 import { defineComponent, ref, onMounted } from 'vue';
 import jokeService from '../services/jokeService';
-import { Joke, JokeTypes } from '../types/jokeTypes';  // Import the interfaces
-
+import { Joke, JokeTypes } from '../types/jokeTypes';  
 export default defineComponent({
   name: 'CreateJoke',
   setup() {
@@ -84,8 +85,8 @@ export default defineComponent({
     const submitJoke = async () => {
       loading.value = true;
       try {
-        const response = await jokeService.addJoke(newJoke.value);
-        message.value = 'Joke added successfully!';
+        const response = await jokeService.addJoke(newJoke.value);  
+        message.value = 'Joke added successfully! <a style="color:black;text-decoration:none;" href="/joke/' + response.joke.id + '">View Joke</a>';
         success.value = true;
         formSubmitted.value = true;
         newJoke.value = { id: null, type: '', setup: '', punchline: '' };
