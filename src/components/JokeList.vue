@@ -5,23 +5,38 @@
       <i class="fas fa-spinner fa-spin"></i>
     </div>
 
-
     <div class="jokes-controls">
       <div class="controls-group">
         <div class="jokes-count-controls">
           <div class="input-group">
             <label for="jokes-count">Number of Jokes:</label>
-            <input type="number" v-model="jokesCount" min="1" max="250" />
+            <input 
+              type="number" 
+              v-model="jokesCount" 
+              min="1" 
+              max="250" 
+              :disabled="selectAll" 
+            />
           </div>
         </div> 
         <div class="joke-types-filter">
           <label for="type-filter">Type:</label>
+          <div class="checkbox-container">
+            <input 
+              type="checkbox" 
+              id="all"
+              v-model="selectAll"
+              @change="onAllToggle" 
+            />
+            <label for="all">All</label>
+          </div>
           <div v-for="type in jokeTypes" :key="type" class="checkbox-container">
             <input 
               type="checkbox" 
               :id="type" 
               :value="type" 
               v-model="selectedTypes" 
+              :disabled="selectAll"
             />
             <label :for="type">{{ type }}</label>
           </div>
@@ -62,7 +77,7 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, ref, computed, onMounted } from 'vue';
+import { defineComponent, ref, computed, onMounted, watch } from 'vue';
 import jokeService from '../services/jokeService';
 import { Joke } from '../types/jokeTypes';
 
@@ -74,9 +89,10 @@ export default defineComponent({
     const selectedTypes = ref<string[]>(['general']);
     const jokesCount = ref(11); // setting the default count to 11 for pagination display
     const pageNumber = ref(1); 
-    const jokesPerPage = 10; // minumum of 10 jokes for pagination
+    const jokesPerPage = 10; // minimum of 10 jokes for pagination
     const loading = ref(false);
     const deleteSuccessMessage = ref<string | null>(null);
+    const selectAll = ref(false);
 
     const fetchJokeTypes = async () => {
       loading.value = true;
@@ -105,7 +121,13 @@ export default defineComponent({
 
     const fetchJokes = async () => {
       loading.value = true;
-      if (selectedTypes.value.length > 0) {
+      if (selectAll.value) {
+        try {
+          jokes.value = await jokeService.getAllJokes();
+        } catch (error) {
+          console.error('Error fetching jokes:', error);
+        }
+      } else if (selectedTypes.value.length > 0) {
         try {
           const type = selectedTypes.value.join(','); 
           jokes.value = await jokeService.getJokesByType(type, jokesCount.value);
@@ -126,6 +148,16 @@ export default defineComponent({
     onMounted(() => {
       fetchJokeTypes();
       fetchJokes();
+    });
+
+
+    watch(selectAll, (newVal) => {
+      if (newVal) {
+        selectedTypes.value = []; 
+        jokesCount.value = 250;  
+      } else {
+        jokesCount.value = 11;
+      }
     });
 
     const filteredJokes = computed(() => {
@@ -153,6 +185,13 @@ export default defineComponent({
       }
     };
 
+    const onAllToggle = () => {
+      if (selectAll.value) {
+        jokesCount.value = 0; 
+      }
+      fetchJokes();
+    };
+
     return {
       jokes,
       jokeTypes,
@@ -168,11 +207,13 @@ export default defineComponent({
       loading,
       deleteJoke,
       deleteSuccessMessage,
+      selectAll,
+      onAllToggle,
     };
   },
 });
 </script>
 
 <style scoped lang="scss">
-    @use '@/assets/styles/joke-list' as jokeListStyles;
-  </style>
+@use '@/assets/styles/joke-list' as jokeListStyles;
+</style>

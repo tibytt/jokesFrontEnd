@@ -74,5 +74,15 @@ export default {
           console.error('Error fetching joke by id:', error);
           throw new Error('Failed to fetch joke');
         }
+      },
+//get all jokes      
+    async getAllJokes(): Promise<Joke[]> {
+      try {
+        const response = await axios.get(`${localUrl}/jokes`);
+        return response.data;
+      } catch (error) {
+        console.error('Error fetching all jokes:', error);
+        throw error;
       }
+    },  
   };
