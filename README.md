@@ -13,5 +13,5 @@ Clone the frontend repository:
 git clone https://github.com/tibytt/jokesFrontEnd.git
 cd jokesFrontEnd
 npm i && npm run dev
-
+npx vitest to run tests
 Visit localhost:5173 on your browser
