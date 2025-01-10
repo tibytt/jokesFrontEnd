@@ -35,11 +35,6 @@ export default {
       }
     ,
   
-    // Fetch jokes by type
-    async getJokesByType(type: string, count: number ) {
-      const response = await axios.get(`${localUrl}/jokes/${type}/${count}`);
-      return response.data;
-    },
   
     // Fetch ten jokes
     async getTenJokes() {
@@ -83,6 +78,15 @@ export default {
       } catch (error) {
         console.error('Error fetching all jokes:', error);
         throw error;
+      }
+    },
+// fetch jokes by type
+    async getJokesByTypeAndNumber(types: string, count: number): Promise<Jokes> {
+      try {
+        const response = await axios.get(`${localUrl}/jokes/${types}/${count}`);
+        return response.data;
+      } catch (error) {
+        throw new Error('Failed to fetch jokes by type and number');
       }
     },  
   };

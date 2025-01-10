@@ -1,6 +1,5 @@
 <template>
   <div class="jokes-list">
-
     <div v-if="loading" class="loading-spinner">
       <i class="fas fa-spinner fa-spin"></i>
     </div>
@@ -14,7 +13,6 @@
               type="number" 
               v-model="jokesCount" 
               min="1" 
-              max="250" 
               :disabled="selectAll" 
             />
           </div>
@@ -36,7 +34,6 @@
               :id="type" 
               :value="type" 
               v-model="selectedTypes" 
-              :disabled="selectAll"
             />
             <label :for="type">{{ type }}</label>
           </div>
@@ -49,6 +46,7 @@
     <div v-if="deleteSuccessMessage" class="success-banner">
       <p>{{ deleteSuccessMessage }}</p>
     </div>
+
     <table class="jokes-table">
       <thead>
         <tr>
@@ -87,9 +85,9 @@ export default defineComponent({
     const jokes = ref<Joke[]>([]); 
     const jokeTypes = ref<string[]>([]); 
     const selectedTypes = ref<string[]>(['general']);
-    const jokesCount = ref(11); // setting the default count to 11 for pagination display
+    const jokesCount = ref(11); 
     const pageNumber = ref(1); 
-    const jokesPerPage = 10; // minimum of 10 jokes for pagination
+    const jokesPerPage = 10; 
     const loading = ref(false);
     const deleteSuccessMessage = ref<string | null>(null);
     const selectAll = ref(false);
@@ -121,28 +119,27 @@ export default defineComponent({
 
     const fetchJokes = async () => {
       loading.value = true;
-      if (selectAll.value) {
-        try {
-          jokes.value = await jokeService.getAllJokes();
-        } catch (error) {
-          console.error('Error fetching jokes:', error);
-        }
-      } else if (selectedTypes.value.length > 0) {
-        try {
-          const type = selectedTypes.value.join(','); 
-          jokes.value = await jokeService.getJokesByType(type, jokesCount.value);
-        } catch (error) {
-          console.error('Error fetching jokes:', error);
-        }
-      } else {
-        try {
+      try {
+        if (selectAll.value) {
+          const allJokes = await jokeService.getAllJokes();
+          jokes.value = allJokes.filter(joke => {
+            return selectedTypes.value.length === 0 || selectedTypes.value.includes(joke.type);
+          });
+          totalPages.value = Math.ceil(jokes.value.length / jokesPerPage);
+        } else if (selectedTypes.value.length > 0) {
+          const type = selectedTypes.value.join(',');
+          jokes.value = await jokeService.getJokesByTypeAndNumber(type, jokesCount.value);
+          totalPages.value = Math.ceil(jokes.value.length / jokesPerPage);
+        } else {
           jokes.value = await jokeService.getRandomJokes(jokesCount.value);
-        } catch (error) {
-          console.error('Error fetching jokes:', error);
+          totalPages.value = Math.ceil(jokes.value.length / jokesPerPage);
         }
+        pageNumber.value = 1;
+      } catch (error) {
+        console.error('Error fetching jokes:', error);
+      } finally {
+        loading.value = false;
       }
-      pageNumber.value = 1;
-      loading.value = false;
     };
 
     onMounted(() => {
@@ -150,11 +147,10 @@ export default defineComponent({
       fetchJokes();
     });
 
-
     watch(selectAll, (newVal) => {
       if (newVal) {
-        selectedTypes.value = []; 
-        jokesCount.value = 250;  
+        selectedTypes.value = [];
+        jokesCount.value = 0;
       } else {
         jokesCount.value = 11;
       }
@@ -164,9 +160,7 @@ export default defineComponent({
       return jokes.value;
     });
 
-    const totalPages = computed(() => {
-      return Math.ceil(filteredJokes.value.length / jokesPerPage);
-    });
+    const totalPages = ref(0);
 
     const paginatedJokes = computed(() => {
       const startIndex = (pageNumber.value - 1) * jokesPerPage;
@@ -187,9 +181,10 @@ export default defineComponent({
 
     const onAllToggle = () => {
       if (selectAll.value) {
-        jokesCount.value = 0; 
+        jokesCount.value = 0;
+      } else {
+        jokesCount.value = 11;
       }
-      fetchJokes();
     };
 
     return {
