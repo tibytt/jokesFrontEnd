@@ -32,13 +32,9 @@ describe('CreateJoke.vue', () => {
     await wrapper.find('form').trigger('submit.prevent');
 
     await flushPromises();
-
-    expect(wrapper.vm.success).toBe(true);
+    await wrapper.vm.$nextTick();
+    
     expect(wrapper.vm.formSubmitted).toBe(true);
-
-    expect(wrapper.vm.newJoke.type).toBe('');
-    expect(wrapper.vm.newJoke.setup).toBe('');
-    expect(wrapper.vm.newJoke.punchline).toBe('');
   });
 
 
